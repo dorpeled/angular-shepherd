@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import Shepherd from 'shepherd.js';
-import { elementIsHidden } from './utils/dom';
-import { makeButton } from './utils/buttons';
+import { Injectable } from "@angular/core";
+import Shepherd from "shepherd.js";
+import { elementIsHidden } from "./utils/dom";
+import { makeButton } from "./utils/buttons";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ShepherdService {
   confirmCancel = false;
@@ -19,8 +19,7 @@ export class ShepherdService {
   tourName = undefined;
   tourObject: Shepherd.Tour = null;
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Get the tour object and call back
@@ -96,13 +95,15 @@ export class ShepherdService {
 
     if (!this.requiredElementsPresent()) {
       tour.addStep({
-        buttons: [{
-          text: 'Exit',
-          action: tour.cancel
-        }],
-        id: 'error',
+        buttons: [
+          {
+            text: "Exit",
+            action: tour.cancel,
+          },
+        ],
+        id: "error",
         title: this.errorTitle,
-        text: [this.messageForUser]
+        text: [this.messageForUser],
       });
       return;
     }
@@ -127,7 +128,10 @@ export class ShepherdService {
     this.requiredElements.forEach((element) => {
       const selectedElement = document.querySelector(element.selector);
 
-      if (allElementsPresent && (!selectedElement || elementIsHidden(selectedElement))) {
+      if (
+        allElementsPresent &&
+        (!selectedElement || elementIsHidden(selectedElement))
+      ) {
         allElementsPresent = false;
         this.errorTitle = element.title;
         this.messageForUser = element.message;
@@ -146,11 +150,12 @@ export class ShepherdService {
       confirmCancelMessage: this.confirmCancelMessage,
       defaultStepOptions: this.defaultStepOptions,
       tourName: this.tourName,
-      useModalOverlay: this.modal
+      useModalOverlay: this.modal,
+      keyboardNavigation: false,
     });
 
-    tourObject.on('complete', this.onTourFinish.bind(this, 'complete'));
-    tourObject.on('cancel', this.onTourFinish.bind(this, 'cancel'));
+    tourObject.on("complete", this.onTourFinish.bind(this, "complete"));
+    tourObject.on("cancel", this.onTourFinish.bind(this, "cancel"));
 
     this.tourObject = tourObject;
   }
